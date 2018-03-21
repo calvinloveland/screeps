@@ -43,6 +43,7 @@ var roleBuilder = {
                     if(creep.repair(broken[0]) == ERR_NOT_IN_RANGE){
                         creep.moveTo(broken[0]);
                     }
+                    creep.say(creep.repair(broken[0]))
                 }
                 else{
                     
