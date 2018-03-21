@@ -22,7 +22,7 @@ var roleBuilder = {
         }
         else {
             creep.memory.working = true;
-            if(creep.room.controller.ticksToDowngrade < 3000 || creep.memory.upgradingController || creep.room.controller.level == 0){
+            if(creep.room.controller.ticksToDowngrade < 3000 || creep.memory.upgradingController || creep.room.controller.level == 1){
                 if(!creep.room.controller.my){
                         creep.moveTo(Game.spawns["Spawn1"]);
                 }
@@ -33,17 +33,19 @@ var roleBuilder = {
                 }
             }
             else{
+                
                  var broken = creep.room.find(FIND_STRUCTURES, {
                     filter: (structure) => {
-                        return (structure.hits < structure.hitsMax * .5 && (structure.structureType != STRUCTURE_RAMPART && structure.structureType != STRUCTURE_WALL)) || structure.hits < 1000;
+                        return ((structure.hits < structure.hitsMax * .5 || structure.hits < 1000) && (structure.structureType != STRUCTURE_RAMPART && structure.structureType != STRUCTURE_WALL && structure.structureType != STRUCTURE_CONTROLLER));
                     }
                 });
-                if(broken.length > 0){
+                if(broken.length > 0 ){
                     if(creep.repair(broken[0]) == ERR_NOT_IN_RANGE){
                         creep.moveTo(broken[0]);
                     }
                 }
                 else{
+                    
                     var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
                     if(targets.length) {
                         if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
@@ -52,6 +54,7 @@ var roleBuilder = {
                     }
                     else if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE){
                         creep.moveTo(creep.room.controller);
+                        creep.memory.upgradingController = true;
                     }
                 }
             }

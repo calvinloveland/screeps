@@ -11,7 +11,7 @@ var roleHarvester = {
             var sources = creep.room.find(FIND_SOURCES);
             if(creep.harvest(sources[creep.memory.favoriteSource]) == ERR_NOT_IN_RANGE) {
                 if(creep.moveTo(sources[creep.memory.favoriteSource])== ERR_NO_PATH){
-                    creep.say("Bitch");
+                    creep.say("NO ROOM");
                     creep.memory.favoriteSource++;
                     if(creep.memory.favoriteSource == sources.length){
                         creep.memory.favoriteSource = 0;
