@@ -15,7 +15,7 @@ var roleHarvester = {
                     creep.memory.favoriteSource++;
                     if(creep.memory.favoriteSource == sources.length){
                         creep.memory.favoriteSource = 0;
-                        creep.memory.role = "builder";
+                        creep.memory.role = "none";
                     }
                 }
             }
@@ -33,7 +33,7 @@ var roleHarvester = {
                 }
             }
             else{
-                creep.memory.role = "builder";
+                creep.memory.role = "none";
             }
         }
 	}
