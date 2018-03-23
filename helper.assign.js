@@ -50,7 +50,7 @@ var assigner = {
 		    harvesters++;
 		}
     }
-    if(harvesters < getNumGather(unemployed.room)){
+    if(harvesters < (getNumGather(unemployed.room)*2)){
         unemployed.memory.role = "harvester";
         return;
     }

@@ -6,17 +6,18 @@ var roleBuilder = {
     run: function (creep) {
         if (creep.carry.energy === 0) {
             creep.memory.working = false;
+            creep.memory.repairing = false;
         }
         if (creep.carry.energy < creep.carryCapacity && creep.memory.working === false) {
             var sources = creep.room.find(FIND_STRUCTURES, {
                     filter: (structure) => {
                         return(structure.structureType === STRUCTURE_EXTENSION || structure.structureType === STRUCTURE_SPAWN) &&
-                            structure.energy > creep.carryCapacity;
+                            structure.energy >= creep.carryCapacity;
                     }
                 })
             ;
             if (sources.length < 1) {
-                creep.memory.role = "none";
+                creep.memory.role = "harvester";
             }
             else if (creep.withdraw(sources[0], RESOURCE_ENERGY, creep.carryCapacity - creep.carry.energy) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(sources[0]);
@@ -30,20 +31,23 @@ var roleBuilder = {
                         }
                     });
                 if (broken.length > 0) {
-                    if (creep.repair(broken[0]) === ERR_NOT_IN_RANGE) {
-                        creep.moveTo(broken[0]);
+                    var best = creep.pos.findClosestByPath(broken)
+                    if (creep.repair(best) === ERR_NOT_IN_RANGE) {
+                        creep.moveTo(best);
+                        
                     }
                 }
                 else {
 
                     var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
                     if (targets.length) {
-                        if (creep.build(targets[0]) === ERR_NOT_IN_RANGE) {
-                            creep.moveTo(targets[0]);
+                        var best = creep.pos.findClosestByPath(targets);
+                        if (creep.build(best) === ERR_NOT_IN_RANGE) {
+                            creep.moveTo(best);
                         }
                     }
                     else {
-                        creep.memory.role = "none"
+                        creep.memory.role = "upgrader"
                     }
                 }
             }
