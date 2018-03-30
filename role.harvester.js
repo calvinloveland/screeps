@@ -1,4 +1,4 @@
-
+var findSource = require("helper.findSource");
 
 var roleHarvester = {
 
@@ -9,23 +9,14 @@ var roleHarvester = {
         }
 	    if((creep.carry.energy < creep.carryCapacity && creep.memory.harvesting === true) || creep.carry.energy === 0) {
 	        creep.memory.harvesting = true;
-            var sources = creep.room.find(FIND_SOURCES);
-            if(creep.harvest(sources[creep.memory.favoriteSource]) == ERR_NOT_IN_RANGE) {
-                if(creep.moveTo(sources[creep.memory.favoriteSource])== ERR_NO_PATH){
-                    creep.say("NO ROOM");
-                    creep.memory.favoriteSource++;
-                    if(creep.memory.favoriteSource == sources.length){
-                        creep.memory.favoriteSource = 0;
-                        creep.memory.role = "none";
-                    }
-                }
-            }
+	        
+            findSource.doIt(creep);
         }
         else {
             creep.memory.harvesting = false;
             var targets = creep.room.find(FIND_STRUCTURES, {
                     filter: (structure) => {
-                        return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN || structure.structureType === STRUCTURE_TOWER) &&
+                        return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN || structure.structureType === STRUCTURE_TOWER|| structure.structureType === STRUCTURE_LINK) &&
                             structure.energy < structure.energyCapacity;
                     }
             });

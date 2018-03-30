@@ -1,3 +1,5 @@
+var signText = "Please don't hurt me <3"
+
 var roleUpgrader = {
     
     /** @param {Creep} creep **/
@@ -5,8 +7,8 @@ var roleUpgrader = {
         if (creep.carry.energy === 0) {
             creep.memory.working = false;
         }
-         if(typeof(creep.room.controller.sign) === "undefined" || creep.room.controller.sign.text !== "Nivlac13 > Makmoud98"){
-             if(creep.signController(creep.room.controller,"Nivlac13 > Makmoud98") === ERR_NOT_IN_RANGE){
+         if(typeof(creep.room.controller.sign) === "undefined" || creep.room.controller.sign.text !== signText){
+             if(creep.signController(creep.room.controller,signText) === ERR_NOT_IN_RANGE){
                  creep.moveTo(creep.room.controller);
              }
          }

@@ -1,4 +1,4 @@
-
+var findEnergy = require("helper.findEnergy");
 
 var roleBuilder = {
 
@@ -9,19 +9,7 @@ var roleBuilder = {
             creep.memory.repairing = false;
         }
         if (creep.carry.energy < creep.carryCapacity && creep.memory.working === false) {
-            var sources = creep.room.find(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return(structure.structureType === STRUCTURE_EXTENSION || structure.structureType === STRUCTURE_SPAWN) &&
-                            structure.energy >= creep.carryCapacity;
-                    }
-                })
-            ;
-            if (sources.length < 1) {
-                creep.memory.role = "harvester";
-            }
-            else if (creep.withdraw(sources[0], RESOURCE_ENERGY, creep.carryCapacity - creep.carry.energy) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0]);
-            }
+            findEnergy.doIt(creep);
         }
         else {
             creep.memory.working = true;
