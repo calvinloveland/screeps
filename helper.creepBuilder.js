@@ -1,3 +1,5 @@
+var aps = ["Peter","Andrew","Judas","John","Matias","Levi","Mathew"]
+
 var getNumGather = function(room) {
     var resources = room.find(FIND_SOURCES_ACTIVE);
     var valid_spots = 0;
@@ -17,30 +19,39 @@ var getNumGather = function(room) {
 
 
 var creepBuilder = { 
-    doit: function(spawn,totalCreeps,totalSpawns) {
+    
+    doit: function(spawn) {
         var hostiles = spawn.room.find(FIND_HOSTILE_CREEPS);
-        
-         if(typeof(Game.flags.Attack)!== "undefined" && Game.flags.Attack.color === COLOR_RED && totalCreeps/totalSpawns > 10  && spawn.room.energyAvailable > 130){
+        var totalCreeps = spawn.room.find(FIND_MY_CREEPS).length;
+         if(totalCreeps === 0 ){
+             console.log("Reviving");
+            spawn.createCreep([WORK,CARRY,MOVE],Math.floor(Math.random()*10) + "-JESUS THE FIRST BORN SON of" + spawn.name, {role:"Jesus"})
+        }
+        else if(totalCreeps <  7  && getNumGather > 2){
+             console.log("Reviving");
+            spawn.createCreep([WORK,CARRY,MOVE],Math.floor(Math.random()*10) + "Apostle " + aps[totalCreeps-1] + " of " + spawn.name, {role:"harvester"})
+        }
+        else  if(typeof(Game.flags.Attack)!== "undefined" && Game.flags.Attack.color === COLOR_RED && totalCreeps > 10  && spawn.room.energyAvailable > 130){
             spawn.createCreep([ATTACK,MOVE],undefined,{role:"berserker"});
         }
         else if(hostiles.length > 0 && spawn.room.energyAvailable > 130) {
             spawn.createCreep([ATTACK,MOVE],undefined,{role:"berserker"});
         }
-        else if(typeof(Game.flags.ClaimThis) !== "undefined" && Game.flags.ClaimThis.color == COLOR_BLUE && totalCreeps/totalSpawns > 10){
+        else if(typeof(Game.flags.ClaimThis) !== "undefined" && Game.flags.ClaimThis.color == COLOR_BLUE && totalCreeps > 5){
             if(spawn.room.energyAvailable >= 200){
                 spawn.createCreep([WORK,CARRY,MOVE],undefined,{role:"homesteader"})
             }
         }
-        else if(typeof(Game.flags.ClaimThis) !== "undefined" && Game.flags.ClaimThis.color == COLOR_GREEN && totalCreeps/totalSpawns > 8){
+        else if(typeof(Game.flags.ClaimThis) !== "undefined" && Game.flags.ClaimThis.color == COLOR_GREEN && totalCreeps > 8){
             if(spawn.room.energyAvailable >= 700){
                 spawn.createCreep([CLAIM,MOVE,MOVE],undefined,{role:"claimer"})
             }
         }
-        else if(totalCreeps == 0 || !spawn.room.find(FIND_MY_CREEPS).length){
-            spawn.createCreep([WORK,CARRY,MOVE],"JESUS THE FIRST BORN SON", {role:"harvester"})
-        }
-        else if(totalCreeps/totalSpawns < 50 && spawn.room.energyAvailable > spawn.room.energyCapacityAvailable * .8){
-                if(spawn.room.energyAvailable >= 750){
+        else if(totalCreeps < 50 && spawn.room.energyAvailable > spawn.room.energyCapacityAvailable * .8){
+                if(spawn.room.energyAvailable >= 1200){
+                    spawn.createCreep([WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE],undefined,{role:"none"});
+                }
+                else if(spawn.room.energyAvailable >= 750){
                     spawn.createCreep([WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE],undefined,{role:"none"});
                 }
                 else if(spawn.room.energyAvailable >= 550){

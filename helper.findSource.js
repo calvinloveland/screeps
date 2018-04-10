@@ -2,14 +2,15 @@ var findEnergy = {
     
     /** @param {Creep} creep **/
     doIt : function(creep){
+        //console.log(creep.room.memory.swapped);
         var best = creep.pos.findClosestByPath(creep.room.find(FIND_SOURCES),{filter: (source) => {return source.energy > 0}});
         if(creep.pos.getRangeTo(best) === 1){
             //creep.say("MINING");
             creep.harvest(best);
         }
         else{
-        best = creep.pos.findClosestByPath(creep.room.find(FIND_SOURCES, {filter: (source) => {return (source.energyCapacity  === source.energy || source.energy / source.ticksToRegeneration > 5)}}));
-            if (best === null && creep.room.memory.swapped < Game.time - 2){
+        best = creep.pos.findClosestByPath(creep.room.find(FIND_SOURCES, {filter: (source) => {return (source.energyCapacity  === source.energy || source.energy / source.ticksToRegeneration > 5 || creep.memory.role === "remoteHarvester")}}));
+            if (best === null && (typeof(creep.room.memory.swapped) === "undefined" || creep.room.memory.swapped < Game.time - 2)){
                 creep.say("Buildin");
                     creep.memory.role = "builder";
                     creep.room.memory.swapped = Game.time;

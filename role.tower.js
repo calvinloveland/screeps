@@ -4,6 +4,8 @@ var roleTower = {
 
     /** @param {StructureTower} tower **/
     run: function (tower) {
+        var healthNeeded = Math.pow(25,tower.room.controller.level/2) + 10000;
+        //console.log(healthNeeded);
         var hostiles = tower.room.find(FIND_HOSTILE_CREEPS);
             if(hostiles.length > 0) {
                 var best = tower.pos.findClosestByRange(hostiles);
@@ -12,8 +14,8 @@ var roleTower = {
             else{
                 var broken = tower.room.find(FIND_STRUCTURES, {
                         filter: (structure) => {
-                            return((structure.structureType === STRUCTURE_WALL && structure.hits < 10000) ||
-                            (structure.structureType === STRUCTURE_RAMPART && structure.hits < 10000) ||
+                            return((structure.structureType === STRUCTURE_WALL && structure.hits < healthNeeded) ||
+                            (structure.structureType === STRUCTURE_RAMPART && structure.hits < healthNeeded) ||
                             (structure.structureType === STRUCTURE_ROAD && structure.hits < 2500)
                             );
                         }

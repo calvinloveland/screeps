@@ -22,7 +22,7 @@ var roleHarvester = {
             });
             targets.push(...creep.room.find(FIND_MY_CREEPS,{
                     filter: (foundCreep) => {
-                        return foundCreep.memory.role != "harvester" && _.sum(foundCreep.carry) < foundCreep.carryCapacity;
+                        return (foundCreep.memory.role != "harvester" && foundCreep.memory.role != "remoteHarvester") && _.sum(foundCreep.carry) < foundCreep.carryCapacity;
                     }
             }));
             if(targets.length > 0) {

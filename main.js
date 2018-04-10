@@ -9,6 +9,8 @@ var roleBerserker = require("role.berserker");
 var roleTower = require("role.tower");
 var roleScout = require("role.scout");
 var roleLink = require("role.link");
+var roleRemoteHarvester = require("role.remoteHarvester");
+var roleMiner = require("role.miner");
 
 var creepBuilder = require("helper.creepBuilder");
 var assigner = require("helper.assign");
@@ -17,10 +19,16 @@ var constructer = require("helper.construct");
 var phrases = ["Greeting","Harvesting","Building","Upgrading","Fighting","Scouting","Linking","Hiding","Asking",
     "Abiding","Abolishing","Aborting","Adapting","Adding","Aging","Baking","Baiting","Balding","Boating","Bowing",
     "Churning","Circling","Cleaning","Coming","Duckling","Dueling","Expanding","Farming","Falling","Felting",
-    "Fibbing","Flexing","Teaming","Healing","Running","Creeping","Showing","Parking","Camping"];
+    "Fibbing","Flexing","Teaming","Healing","Running","Creeping","Showing","Parking","Camping","🍆💦💦💦😂"];
+    
+var commandments = [
+    "🎅🙅👹🙅👳🙅",
+    "☃🙅🐮🙅🗿🙅"
+    ];
 var verbose = true;
 
 module.exports.loop = function () {
+    if(Game.cpu.bucket > 500){
     
     for(var name in Memory.creeps) {
         if(!Game.creeps[name]) {
@@ -44,6 +52,10 @@ module.exports.loop = function () {
 		else if(creep.memory.role === "harvester"){
 		    roleHarvester.run(creep);
 		}
+		else if(creep.memory.role === "Jesus"){
+		    creep.say(commandments[Math.floor(Math.random()*commandments.length)],true,true)
+		    roleHarvester.run(creep);
+		}
 		else if(creep.memory.role === "upgrader"){
 		    roleUpgrader.run(creep);
 		}
@@ -62,6 +74,12 @@ module.exports.loop = function () {
 		else if(creep.memory.role === "scout"){
 		    roleScout.run(creep);
 		}
+		else if(creep.memory.role === "remoteHarvester"){
+		    roleRemoteHarvester.run(creep);
+		}
+		else if(creep.memory.role ==="miner"){
+		    roleMiner.run(creep);
+		} 
 	}
 	
 	    
@@ -83,17 +101,16 @@ module.exports.loop = function () {
 	}
 	
 	
-	var totalSpawns = 0;
-	for(var name in Game.spawns){totalSpawns++;}
 	for(var name in Game.spawns){
 	    var spawn = Game.spawns[name];
-	    creepBuilder.doit(spawn,total,totalSpawns);
+	    creepBuilder.doit(spawn);
 	    if(Game.time % 1000 === 0){
+	        console.log("Constructing");
 	        constructer.doit(spawn);
 	    }
 	    if(Game.flags.ClaimThis.color === COLOR_BLUE && spawn.room === Game.flags.ClaimThis.room){
 	        Game.flags.ClaimThis.setColor(COLOR_WHITE);
 	    }
 	}
-
+    }
 }

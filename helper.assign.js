@@ -43,23 +43,46 @@ var getNumGather = function(room) {
 var assigner = {
     assign : function(unemployed){
     unemployed.say("Job Time!");
-    harvesters = 0
+    var harvesters = 0;
+    var builders = 0;
+    var upgraders = 0;
+    var remoteHarvesters = 0;
+    var miners = 0;
     for(var name in Game.creeps) {
 		var creep = Game.creeps[name];
-		if (creep.room === unemployed.room && creep.memory.role === "harvester"){
-		    harvesters++;
+		if (creep.room === unemployed.room ){
+		    if(creep.memory.role === "harvester"){
+		        harvesters++;
+		    }
+		    else if(creep.memory.role == "upgrader"){
+		        upgraders++;
+		    }
+		    else if(creep.memory.role ==="builder"){
+		        builders++;
+		    }
+		    else if(creep.memory.role == "miner"){
+		        miners++;
+		    }
+		    else if(creep.memory.role === "remoteHarvester"){
+		        remoteHarvesters++;
+		    }
 		}
     }
     if(harvesters < (getNumGather(unemployed.room)*2)){
         unemployed.memory.role = "harvester";
-        return;
     }
-    if(unemployed.room.controller.ticksToDowngrade < 4000){
+    else if(unemployed.room.controller.ticksToDowngrade < 4000){
         unemployed.memory.role = "upgrader";
-        return;
     }
+    else if(miners < 1){
+        unemployed.memory.role = "miner";
+    }
+    else if(upgraders + builders > 1){
+        unemployed.memory.role = "remoteHarvester";
+    }
+    else{
     unemployed.memory.role = "builder";
-    return;
+}
 }
 }
 

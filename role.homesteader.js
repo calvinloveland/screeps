@@ -41,7 +41,10 @@ var roleHomesteader = {
                             return(((structure.hits < structure.hitsMax * .5 && structure.structureType != STRUCTURE_RAMPART && structure.structureType != STRUCTURE_WALL) || structure.hits < 1000) && (structure.structureType !== STRUCTURE_CONTROLLER));
                         }
                     });
-                if (broken.length > 0) {
+                if ((creep.room.controller.level === 1 || creep.room.controller.ticksToDowngrade < 2000) && creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
+                    creep.moveTo(creep.room.controller);
+                }
+                else if (broken.length > 0) {
                     var best = creep.pos.findClosestByPath(broken)
                     if (creep.repair(best) === ERR_NOT_IN_RANGE) {
                         creep.moveTo(best);
