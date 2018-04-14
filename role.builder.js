@@ -30,8 +30,12 @@ var roleBuilder = {
                     var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
                     if (targets.length) {
                         var best = creep.pos.findClosestByPath(targets);
-                        if (creep.build(best) === ERR_NOT_IN_RANGE) {
+                        var result = creep.build(best);
+                        if (result === ERR_NOT_IN_RANGE) {
                             creep.moveTo(best);
+                        }
+                        else if(result === ERR_RCL_NOT_ENOUGH){
+                            creep.memory.role = "upgrader"
                         }
                     }
                     else {

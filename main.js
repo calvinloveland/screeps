@@ -16,7 +16,7 @@ var creepBuilder = require("helper.creepBuilder");
 var assigner = require("helper.assign");
 var constructer = require("helper.construct");
 
-var phrases = ["Greeting","Harvesting","Building","Upgrading","Fighting","Scouting","Linking","Hiding","Asking",
+var phrases = ["乇乂ㄒ尺卂ㄒ卄丨匚匚", "Greeting","Harvesting","Building","Upgrading","Fighting","Scouting","Linking","Hiding","Asking",
     "Abiding","Abolishing","Aborting","Adapting","Adding","Aging","Baking","Baiting","Balding","Boating","Bowing",
     "Churning","Circling","Cleaning","Coming","Duckling","Dueling","Expanding","Farming","Falling","Felting",
     "Fibbing","Flexing","Teaming","Healing","Running","Creeping","Showing","Parking","Camping","🍆💦💦💦😂"];
@@ -49,6 +49,7 @@ module.exports.loop = function () {
     }
     var total = 0;
 	for(var name in Game.creeps) {
+	    
 	    total++;
 		var creep = Game.creeps[name];
 		if(verbose && Math.random()>.98){

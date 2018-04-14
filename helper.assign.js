@@ -54,13 +54,13 @@ var assigner = {
 		    if(creep.memory.role === "harvester"){
 		        harvesters++;
 		    }
-		    else if(creep.memory.role == "upgrader"){
+		    else if(creep.memory.role === "upgrader"){
 		        upgraders++;
 		    }
 		    else if(creep.memory.role ==="builder"){
 		        builders++;
 		    }
-		    else if(creep.memory.role == "miner"){
+		    else if(creep.memory.role === "miner"){
 		        miners++;
 		    }
 		    else if(creep.memory.role === "remoteHarvester"){
@@ -74,7 +74,7 @@ var assigner = {
     else if(unemployed.room.controller.ticksToDowngrade < 4000){
         unemployed.memory.role = "upgrader";
     }
-    else if(miners < 1){
+    else if(miners < 1 && unemployed.room.controller.level >= 6){
         unemployed.memory.role = "miner";
     }
     else if(upgraders + builders > 1){

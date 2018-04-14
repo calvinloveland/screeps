@@ -8,8 +8,12 @@ var roleMiner = {
 	        creep.room.memory.mining = false;
 	        creep.memory.harvesting = true;
 	        var extractor = creep.room.find(FIND_MINERALS);
-	        if(creep.harvest(extractor[0]) === ERR_NOT_IN_RANGE){
+	        var result = creep.harvest(extractor[0]) 
+	        if(result === ERR_NOT_IN_RANGE){
 	            creep.moveTo(extractor[0]);
+	        }
+	        else if (result === ERR_NOT_FOUND){
+	            creep.memory.role = "builder";
 	        }
         }
         else {
@@ -22,7 +26,9 @@ var roleMiner = {
                     }
             });
             for(const resourceType in creep.carry){
-                if(creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                var result = creep.transfer(targets[0], resourceType);
+                //console.log(resourceType + result);
+                if(result == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0]);
                 }
                 }

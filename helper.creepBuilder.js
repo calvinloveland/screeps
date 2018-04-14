@@ -27,7 +27,7 @@ var creepBuilder = {
              console.log("Reviving");
             spawn.createCreep([WORK,CARRY,MOVE],Math.floor(Math.random()*10) + "-JESUS THE FIRST BORN SON of" + spawn.name, {role:"Jesus"})
         }
-        else if(totalCreeps <  7  && getNumGather > 2){
+        else if(totalCreeps <  7){
              console.log("Reviving");
             spawn.createCreep([WORK,CARRY,MOVE],Math.floor(Math.random()*10) + "Apostle " + aps[totalCreeps-1] + " of " + spawn.name, {role:"harvester"})
         }
