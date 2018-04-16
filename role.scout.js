@@ -12,11 +12,31 @@ var getUnexploredRoom = function(room){
                 var y = parseInt(room.name.split(ns)[1]);
                 x += i;
                 y += j;
-                var newName = ""+we+x+ns+y;
-                //console.log(newName);
-                if(typeof(Memory.rooms[newName]) === "undefined"){
-                    got = true;
-                    break;
+                if(x < 0){
+                    if(we === "W"){
+                        we = "E";
+                    }
+                    else{
+                        we = "W";
+                    }
+                    x = 0
+                }
+                if(y < 0){
+                    if(we === "S"){
+                        we = "N";
+                    }
+                    else{
+                        we = "S";
+                    }
+                    y = 0;
+                }
+                if(x <= 60 && y <= 60){
+                    var newName = ""+we+x+ns+y;
+                    //console.log(newName);
+                    if(typeof(Memory.rooms[newName]) === "undefined"){
+                        got = true;
+                        break;
+                    }
                 }
             }
             if(got){
