@@ -11,6 +11,7 @@ var roleScout = require("role.scout");
 var roleLink = require("role.link");
 var roleRemoteHarvester = require("role.remoteHarvester");
 var roleMiner = require("role.miner");
+var roleTerminal = require("role.terminal");
 
 var creepBuilder = require("helper.creepBuilder");
 var assigner = require("helper.assign");
@@ -99,6 +100,9 @@ module.exports.loop = function () {
 	        }
 	        else if(struct.structureType === STRUCTURE_LINK){
 	            roleLink.run(struct);
+	        }
+	        else if(struct.structureType === STRUCTURE_TERMINAL && Game.time % 1000 === 1){
+	            roleTerminal.run(struct);
 	        }
         }
 	
