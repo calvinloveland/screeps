@@ -15,16 +15,23 @@ var roleHarvester = {
         else {
             creep.memory.harvesting = false;
             var targets = creep.room.find(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return ((structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN || structure.structureType === STRUCTURE_TOWER|| structure.structureType === STRUCTURE_LINK) &&
-                            structure.energy < structure.energyCapacity) || (structure.structureType === STRUCTURE_TERMINAL && structure.store[RESOURCE_ENERGY] < 10000);
+                filter: (structure) => {
+                        return (structure.structureType == STRUCTURE_EXTENSION  && structure.energy < structure.energyCapacity);
                     }
             });
-            targets.push(...creep.room.find(FIND_MY_CREEPS,{
-                    filter: (foundCreep) => {
-                        return (foundCreep.memory.role != "harvester" && foundCreep.memory.role != "remoteHarvester") && _.sum(foundCreep.carry) < foundCreep.carryCapacity;
-                    }
-            }));
+            if(targets.length === 0 || creep.room.memory.creepCount > 5){
+                 targets.push(...creep.room.find(FIND_STRUCTURES, {
+                        filter: (structure) => {
+                            return ((structure.structureType == STRUCTURE_SPAWN || structure.structureType === STRUCTURE_TOWER|| structure.structureType === STRUCTURE_LINK) &&
+                                structure.energy < structure.energyCapacity) || (structure.structureType === STRUCTURE_TERMINAL && structure.store[RESOURCE_ENERGY] < 10000);
+                        }
+                }));
+                targets.push(...creep.room.find(FIND_MY_CREEPS,{
+                        filter: (foundCreep) => {
+                            return (foundCreep.memory.role != "harvester" && foundCreep.memory.role != "remoteHarvester" && (foundCreep.carryCapacity - _.sum(foundCreep.carry)) >= creep.carry.energy * .5);
+                        }
+                }));
+            }
             if(targets.length > 0) {
                 var best = creep.pos.findClosestByPath(targets);
                 if(creep.transfer(best, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {

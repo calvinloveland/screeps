@@ -12,7 +12,10 @@ var roleHomesteader = {
     /** @param {Creep} creep **/
     run: function (creep) {
         var goalFlag = Game.flags.ClaimThis;
-        if(creep.room !== goalFlag.room){
+        if(typeof(goalFlag) === "undefined"){
+            creep.memory.role = "harvester"
+        }
+        else if(creep.room !== goalFlag.room){
             creep.moveTo(goalFlag.pos);
             creep.say("OFF I GO!")
         }
@@ -36,7 +39,7 @@ var roleHomesteader = {
             }
             else {
             creep.memory.harvesting = false;
-                var broken = creep.room.find(FIND_STRUCTURES, {
+                var broken = creep.room.find(FIND_MY_STRUCTURES, {
                         filter: (structure) => {
                             return(((structure.hits < structure.hitsMax * .5 && structure.structureType != STRUCTURE_RAMPART && structure.structureType != STRUCTURE_WALL) || structure.hits < 1000) && (structure.structureType !== STRUCTURE_CONTROLLER));
                         }

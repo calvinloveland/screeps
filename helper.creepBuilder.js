@@ -7,7 +7,7 @@ var getNumGather = function(room) {
         var center = resources[index].pos;
         for(var i = -1; i < 2; i++){
             for(var j = -1; j < 2; j++){
-            if(Game.map.getTerrainAt(center.x + i, center.y + j, room.name) != 'wall' && !RoomPosition(center.x + i, center.y + j, room.name).lookFor(LOOK_CREEPS).length){
+            if(Game.map.getRoomTerrain(room.name).get(center.x + i, center.y + j) != 'wall' && !RoomPosition(center.x + i, center.y + j, room.name).lookFor(LOOK_CREEPS).length){
                 valid_spots++;
             }
             }
@@ -18,17 +18,23 @@ var getNumGather = function(room) {
 };
 
 
+
+
 var creepBuilder = { 
     
     doit: function(spawn) {
+        
+        
+        
         var hostiles = spawn.room.find(FIND_HOSTILE_CREEPS);
         var totalCreeps = spawn.room.find(FIND_MY_CREEPS).length;
+        spawn.room.memory.creepCount = totalCreeps;
          if(totalCreeps === 0 ){
              console.log("Reviving");
             spawn.createCreep([WORK,CARRY,MOVE],Math.floor(Math.random()*10) + "-JESUS THE FIRST BORN SON of" + spawn.name, {role:"Jesus"})
         }
         else if(totalCreeps <  5){
-             console.log("Reviving");
+             console.log("Creating Apostles");
             spawn.createCreep([WORK,CARRY,MOVE],Math.floor(Math.random()*10) + "Apostle " + aps[totalCreeps-1] + " of " + spawn.name, {role:"harvester"})
         }
         else  if(typeof(Game.flags.Attack)!== "undefined" && Game.flags.Attack.color === COLOR_RED && totalCreeps > 10  && spawn.room.energyAvailable > 130){
@@ -42,12 +48,17 @@ var creepBuilder = {
                 spawn.createCreep([WORK,CARRY,MOVE],undefined,{role:"homesteader"})
             }
         }
-        else if(typeof(Game.flags.ClaimThis) !== "undefined" && Game.flags.ClaimThis.color == COLOR_GREEN && totalCreeps > 8){
-            if(spawn.room.energyAvailable >= 700){
-                spawn.createCreep([CLAIM,MOVE,MOVE],undefined,{role:"claimer"})
-            }
+        else if(typeof(Game.flags.ClaimThis) !== "undefined" 
+        && Game.flags.ClaimThis.color == COLOR_GREEN 
+        && totalCreeps > 5 
+        && spawn.room.energyCapacityAvailable >= 700
+        ){
+            spawn.createCreep([CLAIM,MOVE,MOVE],undefined,{role:"claimer"})
         }
         else if(totalCreeps < 50 && spawn.room.energyAvailable > spawn.room.energyCapacityAvailable * .8){
+                if(spawn.room.energyAvailable >= 2400){
+                    spawn.createCreep([WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE],undefined,{role:"none"});
+                }
                 if(spawn.room.energyAvailable >= 1200){
                     spawn.createCreep([WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE],undefined,{role:"none"});
                 }

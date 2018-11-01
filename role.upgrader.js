@@ -9,7 +9,9 @@ var roleUpgrader = {
         if (creep.carry.energy === 0) {
             creep.memory.working = false;
         }
-         if(typeof(creep.room.controller.sign) === "undefined" || creep.room.controller.sign.text !== signText){
+         if(typeof(creep.room.controller) !== "undefined" 
+         && typeof(creep.room.controller.sign) !== "undefined" 
+         && creep.room.controller.sign.text !== signText){
              if(creep.signController(creep.room.controller,signText) === ERR_NOT_IN_RANGE){
                  creep.moveTo(creep.room.controller);
              }
@@ -19,7 +21,7 @@ var roleUpgrader = {
         }
         else {
             creep.memory.working = true;
-                if (!creep.room.controller.my) {
+                if (typeof(creep.room.controller) === "undefined" || !creep.room.controller.my) {
                     creep.moveTo(Game.spawns["Spawn1"]);
                 }
                 else if (creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {

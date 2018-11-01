@@ -68,16 +68,19 @@ var assigner = {
 		    }
 		}
     }
-    if(harvesters < (getNumGather(unemployed.room)*2)){
+    if(unemployed.room.controller == null || !unemployed.room.controller.my){
+        unemployed.memory.role = "remoteHarvester";
+    }
+    else if(harvesters < (getNumGather(unemployed.room)*2)){
         unemployed.memory.role = "harvester";
     }
-    else if(unemployed.room.controller.ticksToDowngrade < 4000){
+    else if(unemployed.room.controller.ticksToDowngrade < 4000 || unemployed.room.controller.level == 1){
         unemployed.memory.role = "upgrader";
     }
     else if(miners < 1 && unemployed.room.controller.level >= 6){
         unemployed.memory.role = "miner";
     }
-    else if(upgraders + builders > 1){
+    else if(upgraders + builders > 2){
         unemployed.memory.role = "remoteHarvester";
     }
     else{

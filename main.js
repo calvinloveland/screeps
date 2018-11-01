@@ -121,9 +121,12 @@ module.exports.loop = function () {
 	        console.log("Constructing");
 	        constructer.doit(spawn);
 	    }
-	    if(Game.flags.ClaimThis.color === COLOR_BLUE && spawn.room === Game.flags.ClaimThis.room){
+	    if(Game.flags.ClaimThis != null && Game.flags.ClaimThis.color === COLOR_BLUE && spawn.room === Game.flags.ClaimThis.room){
 	        Game.flags.ClaimThis.setColor(COLOR_WHITE);
 	    }
 	}
+    }
+    else{
+        console.log("Not enough CPU");
     }
 }

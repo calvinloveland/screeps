@@ -13,6 +13,7 @@ var roleClaimer = {
         else{
             var goal = creep.room.controller;
             if(goal.my){
+                creep.room.createConstructionSite(goalFlag.pos,STRUCTURE_SPAWN);
                 goalFlag.setColor(COLOR_BLUE);
             }
             if(goalFlag.color === COLOR_GREEN && creep.claimController(goal) === ERR_NOT_IN_RANGE){
