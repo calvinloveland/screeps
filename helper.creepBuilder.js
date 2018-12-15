@@ -37,7 +37,7 @@ var creepBuilder = {
              console.log("Creating Apostles");
             spawn.createCreep([WORK,CARRY,MOVE],Math.floor(Math.random()*10) + "Apostle " + aps[totalCreeps-1] + " of " + spawn.name, {role:"harvester"})
         }
-        else  if(typeof(Game.flags.Attack)!== "undefined" && Game.flags.Attack.color === COLOR_RED && totalCreeps > 10  && spawn.room.energyAvailable > 130){
+        else  if(typeof(Game.flags.Attack) !== "undefined" && Game.flags.Attack.color === COLOR_RED && totalCreeps >= 8  && spawn.room.energyAvailable > 130){
             spawn.createCreep([ATTACK,MOVE],undefined,{role:"berserker"});
         }
         else if(hostiles.length > 0 && spawn.room.energyAvailable > 130) {

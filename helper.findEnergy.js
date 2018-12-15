@@ -8,11 +8,12 @@ var findEnergy = {
                             structure.energy > 20;
                     }
                 });
+                
             sources.push(... creep.room.find(FIND_MY_CREEPS,{filter: (found) => {
                 return (found.memory.role == "harvester" && creep.memory.harvesting == "false");
             }}));
             sources.push(... creep.room.find(FIND_TOMBSTONES,{filter:(tomb)=>{
-                return (tomb.store.energy / tomb.ticksToDecay > 10);
+                return (tomb.store.energy > tomb.ticksToDecay);
             }}));
             var best = creep.pos.findClosestByPath(sources)
             if (best === null || typeof(best)=== "undefined") {

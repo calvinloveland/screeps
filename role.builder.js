@@ -13,7 +13,7 @@ var roleBuilder = {
         }
         else {
             creep.memory.working = true;
-                var broken = creep.room.find(FIND_STRUCTURES, {
+                var broken = creep.room.find(FIND_MY_STRUCTURES, {
                         filter: (structure) => {
                             return(((structure.hits < structure.hitsMax * .5 && structure.structureType != STRUCTURE_RAMPART && structure.structureType != STRUCTURE_WALL) || structure.hits < 1000) && structure.structureType !== STRUCTURE_CONTROLLER && structure.structureType !== STRUCTURE_EXTRACTOR);
                         }

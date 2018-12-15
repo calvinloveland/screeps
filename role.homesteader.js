@@ -25,17 +25,26 @@ var roleHomesteader = {
         }
     	    if((creep.carry.energy < creep.carryCapacity && creep.memory.harvesting === true) || creep.carry.energy === 0) {
     	        creep.memory.harvesting = true;
-                var sources = creep.room.find(FIND_SOURCES);
-                if(creep.harvest(sources[creep.memory.favoriteSource]) == ERR_NOT_IN_RANGE) {
-                    if(creep.moveTo(sources[creep.memory.favoriteSource])== ERR_NO_PATH){
-                        creep.say("NO ROOM");
-                        creep.memory.favoriteSource++;
-                        if(creep.memory.favoriteSource == sources.length){
-                            creep.memory.favoriteSource = 0;
-                            creep.memory.role = "none";
+    	        var hostile =  creep.room.find(FIND_STRUCTURES,{filter : (struct)=>{return !struct.my && struct.structureType != STRUCTURE_CONTROLLER}});
+    	        if(hostile.length > 0){
+    	            var best = creep.pos.findClosestByPath(hostile);
+    	            if(creep.dismantle(best) == ERR_NOT_IN_RANGE){
+    	                creep.moveTo(best);
+    	            }
+    	        }
+    	        else{
+                    var sources = creep.room.find(FIND_SOURCES);
+                    if(creep.harvest(sources[creep.memory.favoriteSource]) == ERR_NOT_IN_RANGE) {
+                        if(creep.moveTo(sources[creep.memory.favoriteSource])== ERR_NO_PATH){
+                            creep.say("NO ROOM");
+                            creep.memory.favoriteSource++;
+                            if(creep.memory.favoriteSource == sources.length){
+                                creep.memory.favoriteSource = 0;
+                                creep.memory.role = "none";
+                            }
                         }
                     }
-                }
+    	        }
             }
             else {
             creep.memory.harvesting = false;

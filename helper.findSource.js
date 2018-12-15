@@ -3,7 +3,11 @@ var findEnergy = {
     /** @param {Creep} creep **/
     doIt : function(creep){
         //console.log(creep.room.memory.swapped);
-        var best = creep.pos.findClosestByPath(creep.room.find(FIND_SOURCES),{filter: (source) => {return source.energy > 0}});
+        var sources = creep.room.find(FIND_SOURCES,{filter: (source) => {return source.energy > 0}});
+        sources.push(... creep.room.find(FIND_TOMBSTONES,{filter:(tomb)=>{
+                return (tomb.store.energy > tomb.ticksToDecay);
+            }}));
+        var best = creep.pos.findClosestByPath(sources);
         if(creep.pos.getRangeTo(best) === 1){
             //creep.say("MINING");
             creep.harvest(best);
