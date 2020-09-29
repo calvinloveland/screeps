@@ -1,6 +1,7 @@
 var roleSpawn = require("role.spawn.js")
 var roleHarvester = require("role.harvester.js")
 var roleUpgrader = require("role.upgrader.js")
+var roleBuilder = require("role.builder.js")
 
 module.exports.loop = function () {
     for (var name in Game.creeps){
@@ -10,6 +11,9 @@ module.exports.loop = function () {
         }
         if (c.memory.role == "upgrader"){
             roleUpgrader.run(c)
+        }
+        if (c.memory.role == "builder"){
+            roleBuilder.run(c)
         }
     }
     
