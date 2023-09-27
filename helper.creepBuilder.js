@@ -30,11 +30,15 @@ var creepBuilder = {
         var totalCreeps = spawn.room.find(FIND_MY_CREEPS).length;
         spawn.room.memory.creepCount = totalCreeps;
         if (totalCreeps === 0) {
-            console.log("Reviving");
+            if (game.time % 100 === 0) {
+                console.log("Reviving");
+            }
             spawn.createCreep([WORK, CARRY, MOVE], Math.floor(Math.random() * 10) + "-JESUS THE FIRST BORN SON of" + spawn.name, { role: "Jesus" })
         }
         else if (totalCreeps < 5) {
-            console.log("Creating Apostles");
+            if (game.time % 100 === 0) {
+                console.log("Creating Apostles");
+            }
             spawn.createCreep([WORK, CARRY, MOVE], Math.floor(Math.random() * 10) + "Apostle " + aps[totalCreeps - 1] + " of " + spawn.name, { role: "harvester" })
         }
         else if (typeof (Game.flags.Attack) !== "undefined" && Game.flags.Attack.color === COLOR_RED && totalCreeps >= 8 && spawn.room.energyAvailable > 130) {

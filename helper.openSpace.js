@@ -16,17 +16,21 @@
  * mod.thing == 'a thing'; // true
  */
 
-
+//This is not ready for prime time
 var openSpace = {
     is : function(room,pos){
-        for(var i = -1; i < 1; i++){
-            for(var j = -1; j < 1; j++){
-                var look = room.lookAt(pos);
-                if(){
-                    
+        var center = pos;
+        const terrain = Game.map.getRoomTerrain(room.name);
+        for (var dx = -1; dx <= 1; dx++) {
+            for (var dy = -1; dy <= 1; dy++) {
+                if (dx == 0 && dy == 0) {
+                    continue;
                 }
+                if (terrain.get(center.x + dx, center.y + dy) != 'wall') {
+                    valid_spots++;
+                }
+            }
         }
-    }
 }
 
 module.exports = assigner

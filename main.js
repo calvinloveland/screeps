@@ -89,6 +89,12 @@ module.exports.loop = function () {
 		}
 		else if(creep.memory.role ==="miner"){
 		    roleMiner.run(creep);
+		}
+		else if(creep.memory.role === "none" || typeof(creep.memory.role) === "undefined"){
+		    assigner.assign(creep);
+		}
+		else{
+		    console.log("Unknown role: " + creep.memory.role);
 		} 
 	}
 	
