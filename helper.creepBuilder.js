@@ -36,7 +36,7 @@ var creepBuilder = {
             spawn.createCreep([WORK, CARRY, MOVE], Math.floor(Math.random() * 10) + "-JESUS THE FIRST BORN SON of" + spawn.name, { role: "Jesus" })
         }
         else if (totalCreeps < 5) {
-            if (game.time % 100 === 0) {
+            if (Game.time % 100 === 0) {
                 console.log("Creating Apostles");
             }
             spawn.createCreep([WORK, CARRY, MOVE], Math.floor(Math.random() * 10) + "Apostle " + aps[totalCreeps - 1] + " of " + spawn.name, { role: "harvester" })
