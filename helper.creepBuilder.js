@@ -30,7 +30,7 @@ var creepBuilder = {
         var totalCreeps = spawn.room.find(FIND_MY_CREEPS).length;
         spawn.room.memory.creepCount = totalCreeps;
         if (totalCreeps === 0) {
-            if (game.time % 100 === 0) {
+            if (Game.time % 100 === 0) {
                 console.log("Reviving");
             }
             spawn.createCreep([WORK, CARRY, MOVE], Math.floor(Math.random() * 10) + "-JESUS THE FIRST BORN SON of" + spawn.name, { role: "Jesus" })
